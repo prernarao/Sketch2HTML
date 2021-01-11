@@ -1,0 +1,112 @@
+<html>
+
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/lumen/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-715VMUUaOfZR3/rWXZJ9agJ/udwSXGEigabzUbJm2NR4/v5wpDy8c14yedZN6NL7" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+
+	<!-- <link rel="stylesheet" href="{{ url_for('static', filename = 'styles/index.css') }}"> -->
+	<style>
+
+
+		#left-navbar {
+			height: 100%;
+			box-shadow: 6px 3px 5px 0px rgba(0, 0, 0, 0.35);
+		}
+
+		#right-navbar {
+			box-shadow: -6px 3px 5px 0px rgba(0, 0, 0, 0.35);
+		}
+
+		#file-overlay {
+			position: relative;
+			height: 34px;
+			
+		}
+
+		#cf{
+			font-size:12px;
+			pointer-events: none;
+		}
+
+		#file-overlay button {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			right: 0px;
+			bottom: 0px;
+			width: 100%;
+			height: 100%;
+
+		}
+
+		#button-tray {
+			padding: 20px;
+		}
+
+		#button-tray input {
+			margin-top: 20px;
+			height: 34px;
+			font-size:12px;
+		}
+
+
+		#main-row{
+			height:100%;
+		}
+
+		#rendered-page{
+			width:100%;
+			height:100%;
+			border:none;
+		}
+
+	</style>
+</head>
+
+<body>
+
+	<div class="container-fluid nopadding" id="main-container">
+		<div class="row" id="main-row">
+			<div class="col-md-2" id="left-navbar">
+				<div class="header-bar" style="padding-top:20px;padding-bottom:10px;">
+					<h2 style="margin:0px" class="text-center">Menu</h2>
+				</div>
+				<div id="body-bar">
+					<form action="/sendfile" method="post" enctype="multipart/form-data">
+						<div id="button-tray">
+							<div class="file-overlay">
+								<button class="btn btn-primary" id="cf">Choose File</button>			
+								<input type="file" name="uploaded-file" id="file-btn">
+							</div>
+							<button class="btn btn-primary" id="previewframe">Preview</button>
+							<input id="sbt" class="btn btn-primary"  value="Convert">
+							<input id="down-btn" class="btn btn-primary"  value="Download">
+						</div>
+						
+					</form>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<iframe id="rendered-page">
+
+				</iframe>
+			</div>
+			<div class="col-md-2" id="right-navbar">
+
+			</div>
+		</div>
+	</div>
+
+
+	<script src="{{ url_for('static', filename = 'scripts/index.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,373 @@
+<html>
+
+<head>
+	<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/flatly/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-yrfSO0DBjS56u5M+SjWTyAHujrkiYVtRYh2dtB3yLQtUz3bodOeialO59u5lUCFF" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+	<meta http-Equiv="Cache-Control" Content="no-cache" />
+	<meta http-Equiv="Pragma" Content="no-cache" />
+	<meta http-Equiv="Expires" Content="0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- <link rel="stylesheet" href="{{ url_for('static', filename = 'styles/index.css') }}"> -->
+	<style>
+		#left-navbar {
+			position: relative;
+			z-index: 2;
+			height: 100%;
+			box-shadow: 6px 3px 5px 0px rgba(0, 0, 0, 0.35);
+
+		}
+
+		#left-navbar input,
+		#left-navbar button {
+			width: 100%;
+			font-size: 14px !important;
+		}
+
+		#right-navbar {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			height: 100%;
+			padding: 0px 20px;
+			box-shadow: -6px 3px 5px 0px rgba(0, 0, 0, 0.35);
+		}
+
+		#right-navbar input,
+		#right-navbar p {
+			margin-bottom: 10px;
+			width: 100%;
+		}
+
+		#file-overlay {
+			position: relative;
+			height: 34px;
+			width: 100%;
+		}
+
+		#cf {
+			position: relative;
+			width: 100%;
+			z-index: 10;
+		}
+
+		#file-btn {
+			position: absolute;
+			top: 70px;
+			width: inherit;
+			opacity: 0;
+		}
+
+		#button-tray {
+			padding: 20px;
+		}
+
+		#button-tray input {
+			margin-top: 20px;
+			height: 34px;
+			font-size: 12px;
+		}
+
+		#flex-container {
+			display: flex;
+			flex-direction: column;
+		}
+
+		#main-row {
+			height: 100%;
+		}
+
+		#rendered-page {
+			width: 100%;
+			height: 100%;
+			border: none;
+		}
+
+		#file-btn {
+			outline: 0;
+		}
+
+		.flex-row {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.flex-row * {
+			flex: 0.5;
+		}
+
+		#mod-btn {
+			width: 100%;
+		}
+
+		#btn-box {
+			margin-top: 10px;
+		}
+
+		#down-btn {
+			margin-top: 8px !important;
+		}
+
+		#proj-title {
+			display: flex;
+			justify-content: center;
+		}
+
+		.navbar-brand {
+			font-size: 24px !important;
+		}
+
+		.navbar {
+			border-radius: 0px;
+		}
+
+		#underlay-iframe {
+			display: none;
+		}
+
+		#instructions-box{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+		}
+
+
+		#overlay-iframe {
+			background: #2C3E50;
+			flex-direction: column;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+			width: 100%;
+			color: white;
+			cursor: pointer;
+		}
+
+		#overlay-iframe h1 {
+			margin-bottom: 60px;
+			border-bottom: 5px solid white;
+		}
+
+		#instructions-rule li {
+			margin: 20px;
+			font-size: 20px;
+			list-style-type: none;
+			display: flex;
+			align-items: center;
+		}
+
+		.nopadding {
+			padding: 0px !important;
+		}
+
+		.material-icons {
+			margin-right: 15px;
+			font-size: 32px !important;
+		}
+
+		.header-bar {
+			margin-bottom: 60px;
+		}
+
+		#slide-page {
+			position: absolute;
+			bottom: 80px;
+			left: 0px;
+			right: 0px;
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			animation: arrowmove 1s infinite;
+		}
+
+		@keyframes arrowmove {
+			from {
+				bottom: 80px;
+			}
+
+			to {
+				bottom: 60px;
+			}
+		}
+
+
+		.open-icon {
+			cursor: pointer;
+			color: white;
+			font-size: 64px !important;
+			height: 10px;
+			width: 10px;
+		}
+
+
+		.header-bar {
+			color: #2C3E50;
+			margin-top: 20px;
+		}
+
+		#loader {
+			display: none;
+		}
+
+		#loader-circle {
+			position: relative;
+			z-index: 100;
+			height: 100px;
+			width: 100px;
+			border: 10px solid white;
+			border-width: 10px;
+			border-radius: 50%;
+			border-top-color: #517394;
+			border-bottom-color: #517394;
+			border-left-color: white;
+			border-right-color: white;
+			animation: spinning 2s infinite;
+
+		}
+
+		@keyframes spinning {
+			from {
+				transform: rotate(0deg);
+			}
+
+			to {
+				transform: rotate(360deg);
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container-fluid" id="main-container">
+		<div class="row" id="main-row">
+			<div class="col-md-2" id="left-navbar">
+				<div class="header-bar">
+					<h2 style="margin:0px" class="text-center">Menu</h2>
+				</div>
+				<div id="body-bar">
+					<div id="button-tray">
+						<form action="/sendfile" method="post" enctype="multipart/form-data">
+							<div class="file-overlay">
+								<button class="btn btn-primary" id="cf">Choose File</button>
+								<input type="file" type="button" name="uploaded-file" id="file-btn">
+							</div>
+							<input id="sbt" type="button" class="btn btn-primary" value="Convert">
+							<input class="btn btn-primary" id="previewframe" type="button" value="Preview">
+							<input id="del-btn" type="button" class="btn btn-primary" value="Delete"
+								onclick="deletePage()">
+							<input class="btn btn-primary" id="rules-btn" type="button" value="Rules" onclick="showRules()">
+						</form>
+						<a href="http://localhost:5000/download" download><input id="down-btn" type="submit"
+								class="btn btn-primary" value="Download"></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-7 nopadding" onclick="slideFrame()">
+				<div id="overlay-iframe">
+					<div id="instructions-box">
+						<h1>Rules</h1>
+						<ul id="instructions-rule" class="text-center">
+							<li><span class="material-icons">done</span>Image must be uploaded in .jpg format</li>
+							<li><span class="material-icons">done</span>Maintain enough spacing between elements</li>
+							<li><span class="material-icons">done</span>Take photos of images in a well lit environment
+							</li>
+							<li><span class="material-icons">done</span>Keep lines as straight as possible</li>
+							<li><span class="material-icons">done</span>Draw with a pen or pencil</li>
+							<li><span class="material-icons">done</span>Do not smudge or draw over lines repeatedly</li>
+							<li><span class="material-icons">done</span>Avoid stray pen marks on the sheet</li>
+							<li><span class="material-icons">done</span>Draw on white paper, pen ink can be any color
+							</li>
+							<li><span class="material-icons">done</span>Avoid shadows and light variations while taking
+								photos</li>
+						</ul>
+						<div id="slide-page">
+							<span class="material-icons open-icon">keyboard_arrow_down</span>
+							<span class="material-icons open-icon">keyboard_arrow_down</span>
+							<span class="material-icons open-icon">keyboard_arrow_down</span>
+						</div>
+					</div>
+					<div id="loader">
+						<div id="loader-circle">
+
+						</div>
+					</div>
+				</div>
+				<div id="underlay-iframe">
+					<iframe id="rendered-page" onload="iframeclick()">
+
+					</iframe>
+				</div>
+
+			</div>
+			<div class="col-md-3" id="right-navbar">
+				<div class="header-bar">
+					<h2 style="margin:0px" class="text-center">CSS Navigation</h2>
+				</div>
+				<div id="flex-container">
+					<div class="flex-row">
+						<p>Position</p>
+						<input id="position" class="form-control" placeholder="New Position">
+					</div>
+					<div class="flex-row">
+						<p>Left</p>
+						<input id="left" class="form-control" placeholder="New Left">
+					</div>
+
+					<div class="flex-row">
+						<p>Right</p>
+						<input id="right" class="form-control" placeholder="New Right">
+					</div>
+
+					<div class="flex-row">
+						<p>Top</p>
+						<input id="top" class="form-control" placeholder="New Top">
+					</div>
+
+					<div class="flex-row">
+						<p>Bottom</p>
+						<input id="bottom" class="form-control" placeholder="New Bottom">
+					</div>
+
+					<div class="flex-row">
+						<p>Width</p>
+						<input id="width" class="form-control" placeholder="New Width">
+					</div>
+
+					<div class="flex-row">
+						<p>Height</p>
+						<input id="height" class="form-control" placeholder="New Height">
+					</div>
+
+
+					<div class="flex-row">
+						<p>BackgroundColor</p>
+						<input id="backgroundColor" class="form-control" placeholder="New BackgroundColor">
+					</div>
+
+
+					<div class="flex-row">
+						<p>Color</p>
+						<input id="color" class="form-control" placeholder="New Color">
+					</div>
+					<div id="btn-box">
+						<button id="mod-btn" class="btn btn-primary" onclick="modifyValues()">Modify</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+	<script src="{{ url_for('static', filename = 'scripts/index.js') }}"></script>
+</body>
+
+</html>
